@@ -130,7 +130,7 @@ const autenticar = ()=>{
                 mostrarMensaje('Confirmacion','Ingreso Correcto');
 
                 setTimeout(()=>{
-                   // window.location.href = 'menu.html';
+                    window.location.href = 'Usuarios.html';
                 }, 1000);
                 
             }
@@ -144,3 +144,33 @@ const autenticar = ()=>{
     });
 }
 
+/* Logica de usuarios */
+
+
+const userList = () =>{
+    $.ajax({
+        url: `${urlbase}/all`,
+        type: 'GET',
+        dataType: 'json',
+        success: function (respuesta) {
+            console.log(respuesta)
+            body = ""
+            respuesta.forEach(user => {
+                row = `<tr>
+                <th scope="row">${user.id}</th>
+                <td>${user.name}</td>
+                <td>${user.email}</td>
+                <td>${user.password}</td>
+              </tr>`
+              body+=row
+            });
+            $("#userList").html(body)
+        },
+        error: function (xhr, status) {
+            $("#loading").html("");
+            console.log(xhr);
+            console.log(status);
+            mostrarMensaje('Error', 'Error al validar', true);
+        }
+    });
+}
